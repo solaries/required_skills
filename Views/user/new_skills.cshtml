@@ -1,0 +1,355 @@
+@{
+    List<Rs_71.Data.Models.Rs_71listing_site> data0 = (List<Rs_71.Data.Models.Rs_71listing_site>)@ViewBag.data0;
+}
+@{
+
+}
+
+<div class="card">
+
+
+    <div class="card-body">
+        <h4 class="card-title">New skills</h4>
+        <div class="form-validation">
+            <form id="widgetu1290" class="form-valide" action="#" method="post" enctype="multipart/form-data">
+                <input id="Skill" name="Skill" type="hidden" value="" />
+                @Html.AntiForgeryToken()
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label">Date</label>
+                    <div class="col-lg-6">
+                        <input id="Date" name="Date" required type="datetime" class="form-control" placeholder="date" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label">Site</label>
+                    <div class="col-lg-6">
+                        <select class="form-control" id="Site" name="Site">
+                            <option value="">Select Site</option>
+                            @foreach (Rs_71.Data.Models.Rs_71listing_site item in data0)
+                            {
+                                <option value="@item.Id"> @item.Site_name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <!--
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label">Skill</label>
+                    <div class="col-lg-6">
+                        <input id="Skill" name="Skill" required onkeyup="doClean(this)" type="text" class="form-control"
+                            maxlength="60" placeholder="skill" />
+                    </div>
+                </div>
+                 -->
+
+
+
+
+
+
+
+
+                <h4 class="card-title">Skill</h4>
+
+ 
+                <div class="table-responsive">
+                    <table id="controllers" class="table table-striped table-bordered zero-configuration">
+                        <thead>
+                            <tr>
+                                <th>Skill 
+                                </th> 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input id="Skill0" name="Skill0" required
+                                        onkeyup="updateRowsControllers()" type="text" class="form-control"
+                                        maxlength="60" placeholder="Skill" /></td> 
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+
+
+                <div class="form-group row">
+                    <div class="col-lg-8 ml-auto">
+                        <button type="button" class="btn btn-primary" onclick="checkAndGo()">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+
+
+
+
+    function updateRowsControllers() {  
+        var i = 0;
+        while (document.getElementById("Skill" + i) != null) {
+            doClean(document.getElementById("Skill" + i), " ");   
+            i++;
+        }  
+        updateRowsControllers2();  
+        updateFormStructureControllers(); 
+
+    }
+
+     function updateRowsControllers2(){
+            var strData = document.getElementById("controllers" ).innerHTML;
+            var lenn =  strData.split("<tr").length -1;
+            var table = document.getElementById("controllers");  
+            var iii = 0;  
+            for (i=0; i < lenn -2; i++){ 
+                if(document.getElementById("Skill" + (i) ).value.trim().length == 0 ){
+                    table.deleteRow(i+1);
+                    for (j=i+1; j < lenn; j++){
+                        if( table.rows[j ] !=null){
+                            if(j%2 ==1){
+                            }
+                            else{
+                            }
+                            var row = table.rows[j]; 
+                            var a_cell1x = row.cells[0] ;  
+                            if(document.getElementById("Skill"+(j) ) != null){                            
+                                document.getElementById("Skill"+(j)).id =  "Skill"+(j-1);
+                                document.getElementById("Skill"+(j-1)).name =  "Skill"+(j-1);  
+                            }
+                        }
+                    }
+                    return;	
+                } 
+            }
+ 
+            for (i=0; i < lenn -2; i++){ 
+                for (j=i+1; j < lenn -1; j++){ 
+                    if(document.getElementById("Skill" + (j)) != null ){
+                        if(
+                            document.getElementById("Skill" + (i) ).value.trim()
+                            == 
+                            document.getElementById("Skill" + (j) ).value.trim()
+                        ){ 
+                            if(table.rows.item(lenn-1).cells.item(0).firstChild.value == ""){
+                                table.deleteRow(lenn -1); 
+                            }
+                            alert("One of your skills is being repeated.");
+                            return;	
+                        } 
+                    }
+                }
+            }            
+  
+            if(  document.getElementById("Skill" + (lenn-2) ).value.trim().length == 0  ){
+                    return;	
+            } 
+            addRowControllers((lenn-1).toString()
+            ,'' 
+            ); 
+        }
+
+
+
+    function addRowControllers(field1,field2 ){
+            var table = document.getElementById("controllers"); 
+            var strData = document.getElementById("controllers" ).innerHTML;
+            var lenn =  strData.split("<tr").length -1;         
+            var row = table.insertRow(lenn );  
+            var cell1 = row.insertCell(0);  
+            var sel = "";
+            cell1.innerHTML = '<input id="Skill' +  field1 + '" name="Skill' +  field1 + '" required onkeyup="updateRowsControllers()" type="text" class="form-control" maxlength="60" placeholder="Skill" />';
+    }           
+
+
+
+
+    function updateFormStructureControllers(){ 
+        var formStructure = document.getElementById("Skill").value;
+        var table = document.getElementById("controllers");  
+        var formStructureTemp = "";
+        var formStructureList = formStructure.split("*sphinxrow*");
+        var rowDel = "";
+        var foundSal = false;
+        var strData = document.getElementById("controllers" ).innerHTML;
+        var lenn =  strData.split("<tr").length -1;
+        var iii = 0;  
+        var add = false;
+        var pos = 0;
+        var itemList = "";
+        for (i=1; i < lenn-1 ; i++){  
+            var val = table.rows[i].cells[0].children[0].value;  
+            add = true;
+                if(( "  " +  itemList).indexOf(String.fromCharCode(3) + val + String.fromCharCode(3)) > -1){ 
+                add = false; 
+                }
+                    if(add){
+                        pos++;
+                        itemList += String.fromCharCode(3) + val + String.fromCharCode(3) ; 
+                        formStructureTemp += rowDel + val; 
+                        //formStructureTemp +=    "*sphinxcol*" + val1;
+                        //formStructureTemp +=    "*sphinxcol*" + val2;
+                        //formStructureTemp +=    "*sphinxcol*" + val3;
+                        rowDel  = "*sphinxrow*";  
+                        var pageCount =0; 
+                    }
+        }  
+        //pos++;
+        //var pageCount =0;
+        //if(document.getElementById("SController" + pageCount).options[pos] != null){ 
+        //    pageCount =0;
+        //    while(document.getElementById("SController" + pageCount)  != null){ 
+        //        document.getElementById("SController" + pageCount).removeChild( document.getElementById("SController" + pageCount).options[pos]   );
+        //        pageCount++;
+        //    } 
+        //    pageCount =0;
+        //}
+        formStructure = formStructureTemp;
+        document.getElementById("Skill").value = formStructure; 
+      //  alert(document.getElementById("Skill").value);
+        return true;
+    }   
+
+
+    var selectedRights = "";
+    function setRight(id) {
+        selectedRights = document.getElementById("selectedRights").value;
+        if (selectedRights.indexOf("sphinxcol" + id + "sphinxcol") > -1) {
+            selectedRights = selectedRights.split("sphinxcol" + id + "sphinxcol").join("");
+        }
+        else {
+            selectedRights += "sphinxcol" + id + "sphinxcol";
+        }
+        document.getElementById("selectedRights").value = selectedRights;
+    }
+    function doClean(text) {
+        text.value = text.value.split("'").join("");
+        text.value = text.value.split(">").join("");
+        text.value = text.value.split("<").join("");
+        text.value = text.value.split("~").join("");
+        text.value = text.value.split("&").join("");
+        text.value = text.value.split("\\").join("");
+        text.value = text.value.split("_").join("");
+        text.value = text.value.split("%").join("");
+        text.value = text.value.split("\"").join("");
+    }
+    function doCleanN(text) {
+        var list = "0123456789";
+        var data = text.value;
+        for (i = 0; i < data.length; i++) {
+            if (list.indexOf(data.substring(i, i + 1)) == -1) {
+                data = data.split(data.substring(i, i + 1)).join("");
+            }
+        }
+        text.value = data;
+    }
+    function msg(txt) {
+        sweetAlert("...", txt, "info");
+    }
+    function doCleanNumber(textBox) {
+        var strVal;
+        var strVal1;
+        var strVal2;
+        var dot;
+        var i;
+        var strComma;
+        strVal2 = "";
+        strComma = "";
+        strVal1 = "";
+        if (isNaN(textBox.value.split(",").join(""))) {
+            textBox.value = parseFloat(textBox.value.split(",").join(""));
+        }
+        strVal = textBox.value;
+        dot = 0;
+        for (i = 0; i < strVal.length; i++) {
+            if (strVal.substring(i, i + 1).indexOf('.') > -1) {
+                dot = dot + 1;
+            }
+            if ((strVal.substring(i, i + 1).indexOf('0') > -1) || (strVal.substring(i, i + 1).indexOf("1") > -1) || (strVal.substring(i, i + 1).indexOf("2") > -1) || (strVal.substring(i, i + 1).indexOf("3") > -1) || (strVal.substring(i, i + 1).indexOf("4") > -1) || (strVal.substring(i, i + 1).indexOf("5") > -1) || (strVal.substring(i, i + 1).indexOf("6") > -1) || (strVal.substring(i, i + 1).indexOf("7") > -1) || (strVal.substring(i, i + 1).indexOf("8") > -1) || (strVal.substring(i, i + 1).indexOf("9") > -1) || ((strVal.substring(i, i + 1).indexOf('.') > -1) && dot <= 1)) {
+                strVal1 = strVal1 + strVal.substring(i, i + 1)
+            }
+        }
+        if ((strVal1.indexOf('.') == 0)) {
+            strVal1 = "0" + strVal1;
+        }
+        if (strVal1.indexOf('.') > 0) {
+            if (((strVal1.length) - (strVal1.indexOf('.') + 1)) > 2) {
+                strVal1 = strVal1.substring(0, strVal1.indexOf('.') + 3);
+            }
+        }
+        strVal = "";
+        if (strVal1.indexOf('.') != -1) {
+            strVal = strVal1.substring(strVal1.indexOf('.'), strVal1.indexOf('.') + 3);
+            strVal1 = strVal1.substring(0, strVal1.indexOf('.'));
+        }
+        while (strVal1.length > 0) {
+            if (strVal1.length > 3) {
+                strVal2 = strVal1.substring(strVal1.length - 3, strVal1.length) + strComma + strVal2;
+                strVal1 = strVal1.substring(0, strVal1.length - 3);
+                strComma = ",";
+            }
+            else {
+                strVal2 = strVal1 + strComma + strVal2;
+                strVal1 = "";
+            }
+        }
+        if (strVal2.indexOf('.') > 0) {
+            strVal2 = strVal2.substring(0, strVal2.indexOf('.'));
+        }
+        textBox.value = strVal2 + strVal;
+    }
+    function checkAndGo() {
+
+        doClean(document.getElementById("Skill"));
+        if (document.getElementById("Date").value.trim().length == 0) {
+            msg("Please enter date");
+            return;
+        }
+        if (document.getElementById("Site").value.trim().length == 0) {
+            msg("Please select site");
+            return;
+        }
+        if (document.getElementById("Skill").value.trim().length == 0) {
+            msg("Please enter skill");
+            return;
+        }
+
+        document.getElementById("widgetu1290").submit();
+    } 
+</script>
+<script>
+    var statusMessage = "@ViewBag.status" || false;
+    if (statusMessage != false && statusMessage.length > 0) {
+        msg(statusMessage);
+    }
+</script>
+
+<style>
+    #controllers_length , #controllers_filter, #controllers_paginate,#controllers_info
+    ,#tables_length , #tables_filter, #tables_paginate,#tables_info
+    ,#tableFields_length , #tableFields_filter, #tableFields_paginate,#tableFields_info
+    ,#webPages_length , #webPages_filter, #webPages_paginate,#webPages_info
+    {
+        display: none;
+    }
+
+    h4{
+        margin-top: 50px;
+    }
+    td{
+        box-sizing: border-box !important;
+    }
+    input[type="checkbox"]:after{
+        display: none !important;
+    }
+    input{
+        min-width: 150px !important;
+    }
+    select{
+        min-width: 160px !important;
+    }
+
+</style>

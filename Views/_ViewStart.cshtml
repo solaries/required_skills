@@ -1,0 +1,14 @@
+@{ 
+    var controller = this.ViewContext.RouteData.Values["Controller"].ToString();
+    var action = this.ViewContext.RouteData.Values["Action"].ToString();
+       if (action.ToLower() == "login" || action.ToLower() == "register")
+       { 
+       }  
+       else
+       { 
+            if (controller.ToLower() == "user")
+           { 
+               Layout = "~/Views/Shared/_user.cshtml";
+           }
+       }  
+}
